@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
+import logo from './logo.svg';
 import { default as Home } from './features/home';
 import './App.css';
 
