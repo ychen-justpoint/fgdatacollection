@@ -60,6 +60,19 @@ export default function StreamTable(props) {
 
     },
     {
+      title: 'Source',
+      dataIndex: 'sourceid',
+      key: 'sourceid',
+      sorter: true,
+      sortDirections: ['descend', 'ascend'],
+      render : (text, record, index)=>(
+        <Select disabled defaultValue ={text}>
+              {rest.source.data.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
+        </Select>
+      )
+
+    },
+    {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',

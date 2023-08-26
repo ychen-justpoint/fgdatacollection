@@ -35,13 +35,19 @@ export default function SearchForm(props) {
                         </Select>
                     </Form.Item>
                 </Col>
-            </Row>
-            <Row>
                 <Col span={12}>
-                    <Form.Item name="keyword" label="Keyword" >
-                        <Input placeholder="keyword" />
+                    <Form.Item name="sourceid" label="Source" rules={[{ required: false, message: 'Please select a Source!', }]}>
+                        <Select value={null} 
+                                showSearch
+                                filterOption={(input, option) =>
+                                    option.items && option.items.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                }
+                                >
+                            <Option key={null} value={null}></Option>
+                            {rest.source.data.map((st) => (<Option key={st.id} value={st.id}>{st.name}</Option>))}
+                        </Select>
                     </Form.Item>
-                </Col>                   
+                </Col>
             </Row>
             <Row>
                 <Col span={1}>

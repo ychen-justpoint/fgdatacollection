@@ -13,12 +13,13 @@ import { default as ModulePage } from './ui';
 
 const mapStateToProps = (state,ownProps) => {
 
-    const {publisher,stream,destination} = state
+    const {publisher,stream,destination,source} = state
 
     return {
       repo : publisher,
       stream : stream,
       destination : destination,
+      source : source,
       accessToken : accessToken
     }
 }

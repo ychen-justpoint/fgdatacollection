@@ -114,7 +114,7 @@ export default function Index(props) {
       {
         ...repoRef.current.search,
         streamid : data.streamid,
-        keyword : data.keyword,
+        sourceid : data.sourceid,
         currentpage: 1,
         numberofsearch: originNumberOfSearch + 1
       }

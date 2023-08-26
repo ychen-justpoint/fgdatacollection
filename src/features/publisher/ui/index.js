@@ -113,7 +113,9 @@ export default function Index(props) {
     updateSearchstateIfNotBusy(
       {
         ...repoRef.current.search,
-        email : data.email,
+        sourceid : data.sourceid,
+        streamid : data.streamid,
+        destinationid : data.destinationid,
         name : data.name,
         currentpage: 1,
         numberofsearch: originNumberOfSearch + 1

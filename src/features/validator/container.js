@@ -13,11 +13,12 @@ import { default as ModulePage } from './ui';
 
 const mapStateToProps = (state,ownProps) => {
 
-    const {validator,stream} = state
+    const {validator,stream,source} = state
 
     return {
       repo : validator,
       stream : stream,
+      source : source,
       accessToken : accessToken
     }
 }

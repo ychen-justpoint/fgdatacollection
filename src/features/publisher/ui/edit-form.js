@@ -92,6 +92,23 @@ export default function EditForm(props) {
         </Col>
       </Row>
       <Row gutter={16}>
+      <Col span={12}>
+          <Form.Item
+            name="sourceid"
+            label="Source"
+            >
+            <Select 
+              showSearch
+              placeholder="Search for Source"
+              optionFilterProp="items"
+              filterOption={(input, option) =>
+                option.items && option.items.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {rest.source.data.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
+            </Select>
+          </Form.Item>
+        </Col>
         <Col span={12}>
           <Form.Item
             disabled={!inserting}

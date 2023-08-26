@@ -42,6 +42,14 @@ const returnQueryUrl = (data) => {
             filter = '$filter=streamid eq ' + encodeURIComponent(data['streamid']) + '' ;
     }
 
+    if (data.hasOwnProperty('sourceid') && data['sourceid'] !== undefined && data['sourceid'] !== null && data['sourceid'].length > 0) {
+
+        if (filter){
+            filter = filter +  ' and sourceid eq ' + encodeURIComponent(data['sourceid']) + ''
+        }
+        else
+            filter = '$filter=sourceid eq ' + encodeURIComponent(data['sourceid']) + '' ;
+    }
 
     if (data.hasOwnProperty('destinationid') && data['destinationid'] !== undefined && data['destinationid'] !== null && data['destinationid'].length > 0) {
 
