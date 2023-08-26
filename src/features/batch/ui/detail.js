@@ -18,24 +18,25 @@ export default function Detail(props) {
     ...rest
   } = props;
 
-  const items = [{
-    key: "file",
-    label: "File",
-    children: <BatchFile batchid={record.id} />
-  }, {
-    key: "data",
-    label: "Data",
-    children: <BatchData batchid={record.id} />
-  }, {
-    key: "activity",
-    label: "Activity",
-    children: <BatchActivity batchid={record.id} />
-  }
+  const items = [
+    {
+      key: "activity",
+      label: "Activity",
+      children: <BatchActivity batchid={record.id} />
+    }, {
+      key: "file",
+      label: "File",
+      children: <BatchFile batchid={record.id} />
+    }, {
+      key: "data",
+      label: "Data",
+      children: <BatchData batchid={record.id} />
+    }
     , {
-    key: "message",
-    label: "Message",
-    children: <BatchMessage batchid={record.id} />
-  }
+      key: "message",
+      label: "Message",
+      children: <BatchMessage batchid={record.id} />
+    }
   ]
 
 
@@ -43,7 +44,7 @@ export default function Detail(props) {
     <Layout>
       <Row>
         <Col span={24}>
-          <Tabs defaultActiveKey="file" tabPosition='top' style={{ height: '100%' }} items={items}/>
+          <Tabs defaultActiveKey="file" tabPosition='top' style={{ height: '100%' }} items={items} />
         </Col>
       </Row>
     </Layout>
