@@ -44,7 +44,7 @@ export default function Detail(props) {
     <Layout>
       <Row>
         <Col span={24}>
-          <Tabs defaultActiveKey="file" tabPosition='top' style={{ height: '100%' }} items={items} />
+          <Tabs defaultActiveKey="activity" tabPosition='top' style={{ height: '100%' }} items={items} />
         </Col>
       </Row>
     </Layout>
