@@ -29,14 +29,15 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-  getItem('Home', 'sub1', <HomeOutlined />, [
+  getItem('Dashboard', 'dashboard',<LaptopOutlined />),
+  getItem('Home', 'home', <HomeOutlined />, [
     getItem('Batch', 'batch'),
     getItem('Message', 'message'),
     getItem('Data', 'data'),
     getItem('File', 'file'),
     getItem('Activity', 'activity'),
   ]),
-  getItem('Settings', 'sub2', <AppstoreOutlined />, [
+  getItem('Settings', 'settings', <AppstoreOutlined />, [
     getItem('Stream', 'stream'),
     //getItem('Source', 'source'),
     //getItem('Destination', 'destination'),
@@ -104,7 +105,9 @@ export default function Home() {
       case 'activity':
         navigate('/activity');
         break;
-
+      case 'dashboard':
+        navigate('/');
+        break;
       default:
         navigate('/');
     }

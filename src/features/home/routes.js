@@ -14,7 +14,7 @@ const JsonDataPage = lazy(() => import('../jsondata/container'));
 const FilePage = lazy(() => import('../file/container'));
 const ActivityPage = lazy(() => import('../activity/container'));
 
-const Dashboard = lazy(() => import('../dashboard'));
+const Dashboard = lazy(() => import('../dashboard/container'));
 
 //import {default as StreamPage} from '../stream/stream-container';
 

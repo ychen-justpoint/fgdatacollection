@@ -19,6 +19,8 @@ import { default as batchfileReducer} from '../features/batchfile/slice'
 import { default as batchdataReducer} from '../features/batchdata/slice'
 import { default as batchactivityReducer} from '../features/batchactivity/slice'
 import { default as batchmessageReducer} from '../features/batchmessage/slice'
+import { default as dashboardReducer} from '../features/dashboard/slice'
+
 
 export default configureStore({
   reducer: {
@@ -40,6 +42,7 @@ export default configureStore({
     jsonschema : jsonschemaReducer,
     jsondata : jsondataReducer,
     file : fileReducer,
-    activity : activityReducer
+    activity : activityReducer,
+    dashboard : dashboardReducer
   },
 })
