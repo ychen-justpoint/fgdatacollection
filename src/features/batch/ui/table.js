@@ -9,7 +9,8 @@ import {
   ApartmentOutlined,
   EditOutlined,
   DeleteOutlined,
-  ReloadOutlined
+  ReloadOutlined,
+  FileProtectOutlined
 } from '@ant-design/icons';
 
 import { default as Detail } from './detail';
@@ -108,7 +109,7 @@ export default function myTable(props) {
             okText="Yes"
             cancelText="No">
             <Button>
-              <ApartmentOutlined />
+              <FileProtectOutlined />
             </Button>
           </Popconfirm>
           <Button onClick={() => { handleOpenEditor(record) }}>
