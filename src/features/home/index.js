@@ -165,8 +165,8 @@ export default function Home() {
               style={{
                 width: 196
               }}
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
+              defaultSelectedKeys={['dashboard']}
+              defaultOpenKeys={['home']}
               mode="inline"
               items={items}
             />
