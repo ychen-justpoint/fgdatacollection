@@ -40,7 +40,7 @@ export default function SearchForm(props) {
                         </Select>
                     </Form.Item>
                 </Col>
-                <Col span={12}>
+                {/* <Col span={12}>
                     <Form.Item
                         name="batchid"
                         label="Batch"
@@ -57,9 +57,7 @@ export default function SearchForm(props) {
                             {rest.batch.data.value.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
                         </Select>
                     </Form.Item>
-                </Col>
-            </Row>
-            <Row>
+                </Col> */}
                 <Col span={12}>
                     <Form.Item name="status" label="Status" >
                         <Select>
