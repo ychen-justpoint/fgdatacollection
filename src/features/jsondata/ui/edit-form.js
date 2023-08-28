@@ -55,7 +55,7 @@ export default function EditForm(props) {
           <Form.Item
             name="batchid"
             label="Batch Id">
-            <Input placeholder="Batchid"/>
+            <Input placeholder="Batchid" disabled/>
           </Form.Item>
         </Col>
         <Col span={12}>
