@@ -62,7 +62,6 @@ const mySlice = createSlice({
       isbusy: false,
       search: {
          id: null,
-         status : 'invalid',
          currentpage: 1,
          itemperpage: 5,
          sortby: 'id',

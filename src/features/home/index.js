@@ -8,7 +8,7 @@ import { Layout, Menu, Breadcrumb, Typography, Row, Col, Button, Avatar, Space }
 import {
   UserOutlined, LaptopOutlined, NotificationOutlined, ContainerOutlined,
   DiffOutlined, HomeOutlined, MailOutlined, AppstoreOutlined, SettingOutlined,
-  LogoutOutlined
+  LogoutOutlined,UnorderedListOutlined
 } from '@ant-design/icons';
 
 import { default as CommonContext } from '../../app/common-context';
@@ -29,14 +29,15 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-  getItem('Dashboard', 'dashboard',<LaptopOutlined />),
-  getItem('Home', 'home', <HomeOutlined />, [
-    getItem('Batch', 'batch'),
-    getItem('Message', 'message'),
-    getItem('Data', 'data'),
-    getItem('File', 'file'),
-    getItem('Activity', 'activity'),
-  ]),
+  getItem('Dashboard', 'dashboard',<HomeOutlined />),
+  getItem('Batch', 'batch',<UnorderedListOutlined/>),
+  // getItem('Home', 'home', <HomeOutlined />, [
+  //   getItem('Batch', 'batch'),
+  //   getItem('Message', 'message'),
+  //   getItem('Data', 'data'),
+  //   getItem('File', 'file'),
+  //   getItem('Activity', 'activity'),
+  // ]),
   getItem('Settings', 'settings', <AppstoreOutlined />, [
     getItem('Stream', 'stream'),
     //getItem('Source', 'source'),
@@ -197,7 +198,7 @@ export default function Home() {
                 width: 196
               }}
               defaultSelectedKeys={['dashboard']}
-              defaultOpenKeys={['home']}
+              defaultOpenKeys={['settings']}
               mode="inline"
               items={items}
             />
