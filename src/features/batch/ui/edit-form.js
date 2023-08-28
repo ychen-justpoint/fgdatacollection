@@ -65,7 +65,7 @@ export default function EditForm(props) {
                 required: true, message: 'Status is required.'
               },
             ]}>
-            <Select>
+            <Select disabled={!inserting}>
               <Option value='init'>init</Option>
               <Option value='closed'>closed</Option>
               <Option value='invalid'>invalid</Option>
@@ -102,7 +102,7 @@ export default function EditForm(props) {
             name={'sourceid'}
             label="Source"
             >
-            <Select
+            <Select disabled={!inserting}
               showSearch
               placeholder="Search for source"
               optionFilterProp="items"

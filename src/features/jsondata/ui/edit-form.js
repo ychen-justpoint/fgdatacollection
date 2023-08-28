@@ -55,14 +55,14 @@ export default function EditForm(props) {
           <Form.Item
             name="batchid"
             label="Batch Id">
-            <Input placeholder="Batchid" disabled/>
+            <Input placeholder="Batchid" disabled={!inserting}/>
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             name="status"
             label="Status">
-            <Input placeholder="Status"/>
+            <Input placeholder="Status" disabled={!inserting}/>
           </Form.Item>
         </Col>
       </Row>
@@ -85,7 +85,7 @@ export default function EditForm(props) {
                 required: true, message: 'Stream is required.'
               },
             ]}>
-            <Select
+            <Select disabled={!inserting}
               showSearch
               placeholder="Search for Stream"
               optionFilterProp="items"
