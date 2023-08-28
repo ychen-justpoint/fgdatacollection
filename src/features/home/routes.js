@@ -1,5 +1,6 @@
 import React , { Suspense, lazy } from 'react';
-import { Routes, Route, Link, useMatch } from 'react-router-dom';
+import { Routes, Route, useLocation,Link } from 'react-router-dom';
+import { Alert, Breadcrumb } from 'antd';
 
 const StreamPage = lazy(() => import('../stream/container'));
 const BatchPage = lazy(() => import('../batch/container'));
@@ -41,9 +42,9 @@ function HomeRoutes() {
           <Route path= "/data" element={<JsonDataPage />}/>
           <Route path= "/file" element={<FilePage />}/>
           <Route path= "/activity" element={<ActivityPage />}/>
-          
         </Routes>
       </Suspense>
+      
     </div>
   );
 }

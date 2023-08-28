@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useMsal, useIsAuthenticated } from '@azure/msal-react';
 
-import { Routes, Route, Link, useMatch, Outlet, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 
 import { Layout, Menu, Breadcrumb, Typography, Row, Col, Button, Avatar, Space } from 'antd';
 
@@ -51,8 +51,39 @@ const items = [
   ])
 ];
 
+const breadcrumbNameMap = {
+  '/batch': 'Batch',
+  '/message': 'Message',
+  '/data': 'Data',
+  '/activity': 'Activity',
+  '/file': 'File',
+  '/stream':'Stream',
+  '/collector':'Collector',
+  '/validator':'Validator',
+  '/publisher' :'Publisher',
+  '/subscriber' : 'Subscriber',
+  '/subscription' : 'Subscription',
+  '/jsonschema' : 'Schema'
+};
+
 export default function Home() {
 
+  const location = useLocation();
+  const pathSnippets = location.pathname.split('/').filter((i) => i);
+  const extraBreadcrumbItems = pathSnippets.map((_, index) => {
+    const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+    return {
+      key: url,
+      title: <Link to={url}>{breadcrumbNameMap[url]}</Link>,
+    };
+  });
+
+  const breadcrumbItems = [
+    {
+      title: <Link to="/">Dashboard</Link>,
+      key: 'dashboard',
+    },
+  ].concat(extraBreadcrumbItems);
 
   const { instance } = useMsal();
 
@@ -172,6 +203,7 @@ export default function Home() {
             />
           </Sider>
           <Content>
+            <Breadcrumb items={breadcrumbItems} />
             <HomeRoutes />
           </Content>
         </Layout>
