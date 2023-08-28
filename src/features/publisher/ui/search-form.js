@@ -16,7 +16,7 @@ export default function SearchForm(props) {
         onFormSubmited(values)
     };
 
-    useEffect(() => { form.resetFields() }, [formState])
+    useEffect(() => { form.resetFields() }, [formState,form])
 
     return (
 
