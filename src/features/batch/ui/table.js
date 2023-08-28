@@ -17,6 +17,17 @@ import { default as Detail } from './detail';
 
 const { Option } = Select;
 
+const getRowClassName = record => {
+  // Define your logic to determine the background color based on the score
+  if (record.status === 'valid') {
+    return 'valid-batch-row';
+  } else if (record.status === 'invalid') {
+    return 'invalid-batch-row';
+  } else {
+    return 'init-batch-row';
+  }
+};
+
 export default function myTable(props) {
 
   const {
@@ -166,6 +177,7 @@ export default function myTable(props) {
         onChange={handleTableChange}
         // title={titleBar}
         loading={repo.isbusy}
+        rowClassName={getRowClassName}
         expandable={{
           expandedRowRender: record => <Detail record={record}></Detail>
         }}

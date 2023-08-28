@@ -112,6 +112,17 @@ export default function myTable(props) {
   //     <Button onClick={() => { handleOpenEditor({ id: null }) }}> <PlusOutlined /> </Button>
   //   </Space>);
 
+  const getRowClassName = record => {
+    // Define your logic to determine the background color based on the score
+    if (record.status === 'valid') {
+      return 'valid-batch-row';
+    } else if (record.status === 'invalid') {
+      return 'invalid-batch-row';
+    } else {
+      return 'init-batch-row';
+    }
+  };
+
   return (
     <div>
       {/* <Divider /> */}
@@ -140,6 +151,7 @@ export default function myTable(props) {
         loading={repo.isbusy}
         resizable
         // bordered
+        rowClassName={getRowClassName}
         scroll={{ x: 'max-content' }}
         expandable={{
           expandedRowRender: record => <MessageDetail record={record}></MessageDetail>

@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.invalid-batch-row {
+  background-color: #fac105; /* Example color for high scores */
+}
+
+.valid-batch-row {
+  background-color: #baf695; /* Example color for medium scores */
+}
+
+.init-batch-row {
+  background-color: #fcfafa6d; 
+}
