@@ -31,6 +31,7 @@ export default function Index(props) {
     deleteBatchIfNotBusy,
     validateBatchIfNotBusy,
     updateSearchstateIfNotBusy,
+    uploadFileIfNotBusy,
     ...rest
   } = props;
 
@@ -207,6 +208,7 @@ export default function Index(props) {
                   rest={rest}
                   form={form}
                   onSubmit={upsertBatchIfNotBusy}
+                  uploadFileIfNotBusy={uploadFileIfNotBusy}
                 />
               </Spin>
             </Drawer>

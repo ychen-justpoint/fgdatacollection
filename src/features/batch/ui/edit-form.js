@@ -4,13 +4,14 @@ import ReactDOM from 'react-dom';
 import { Form, Input, InputNumber, Select, Tooltip, Button, Row, Col, DatePicker } from 'antd';
 
 import { default as Detail } from './detail';
+import { default as FileUpload} from './upload';
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 export default function EditForm(props) {
 
-  const { record, form, onSubmit, rest } = props;
+  const { record, form, onSubmit, rest,uploadFileIfNotBusy } = props;
 
   const inserting = (record.id === undefined || record.id === null)
 
@@ -119,6 +120,13 @@ export default function EditForm(props) {
         <Col span={24}>
           {
             inserting?<div></div>:<Detail record={record}></Detail>
+            
+          }
+            
+        </Col>
+        <Col span={24}>
+          {
+            inserting?<div></div>:<FileUpload record={record} uploadFileIfNotBusy={uploadFileIfNotBusy}></FileUpload>
             
           }
             
