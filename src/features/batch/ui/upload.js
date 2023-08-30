@@ -1,12 +1,35 @@
 import React, { useState } from 'react';
 import { Upload, Button, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+
+const { Dragger } = Upload;
+
+const draggerprops = {
+    name: 'file',
+    multiple: true,
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    onChange(info) {
+        const { status } = info.file;
+        if (status !== 'uploading') {
+            console.log(info.file, info.fileList);
+        }
+        if (status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully.`);
+        } else if (status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+        }
+    },
+    onDrop(e) {
+        console.log('Dropped files', e.dataTransfer.files);
+    },
+};
 
 const FileUpload = (props) => {
 
     const {
         record,
-        uploadFileIfNotBusy,
+        fetchBatchesIfNotBusy,
+        accessToken,
         ...rest
     } = props;
 
@@ -19,9 +42,14 @@ const FileUpload = (props) => {
         setFileList(newFileList);
     };
 
+    const handleOnChange = (info) => {
+        setFileList(info.fileList);
+    };
+
     const handleBeforeUpload = (file) => {
 
-        setFileList([...fileList, file]);
+        // setFileList([...fileList, file]);
+
         // const fileName = file.name;
 
         // const reader = new FileReader();
@@ -43,8 +71,11 @@ const FileUpload = (props) => {
     };
 
     const handleUpload = async () => {
+
         for (const file of fileList) {
-            const fileContent = await readFileAsBase64(file);
+
+            file.status = "uploading";
+            const fileContent = await readFileAsBase64(file.originFileObj);
             try {
 
                 const data = {
@@ -53,15 +84,56 @@ const FileUpload = (props) => {
                     content: btoa(fileContent)
                 };
 
-                uploadFileIfNotBusy(data);
+                await uploadFile(data);
+                // uploadFileIfNotBusy(data);
 
             } catch (error) {
-
+                file.status = "error";    
                 message.error(`File "${file.name}" upload failed.`);
 
             }
+            file.status = "done";
+            message.success(`File "${file.name}" uploaded successfully!`);
         }
-        message.success('File(s) uploaded successfully!');
+        
+        fetchBatchesIfNotBusy();
+    };
+
+    const uploadFile = (data) => {
+        
+        return new Promise((resolve) => {
+
+            const resourceUrl = process.env.REACT_APP_API + 'api/batches/';
+
+            let url = resourceUrl + data.record.id + '/files'
+
+            const myHeaders = new Headers({ "Content-Type": "application/json", "Authorization": "Bearer " + accessToken.getAccessToken() });
+
+            const body = JSON.stringify(data);
+
+            const requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: body,
+                redirect: 'follow'
+            }
+
+            fetch(url, requestOptions)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(res.statusText);
+                    } else {
+                        return res.json()
+                    }
+                })
+                .then(
+                    (json) => { resolve(json) }
+                )
+                .catch(
+                    (error) => { throw new Error(error.message); }
+                )
+
+        });
     };
 
     const readFileAsBase64 = (file) => {
@@ -74,13 +146,31 @@ const FileUpload = (props) => {
 
     return (
         <div>
-            <Upload
+            {/* <Upload
                 fileList={fileList}
                 beforeUpload={handleBeforeUpload}
                 onRemove={handleOnRemove}
+                multiple ={true}
             >
                 <Button icon={<UploadOutlined />}>Select File(s)</Button>
-            </Upload>
+            </Upload> */}
+
+            <Dragger
+                name='file'
+                fileList={fileList}
+                beforeUpload={handleBeforeUpload}
+                //   onRemove={handleOnRemove}
+                onChange={handleOnChange}
+                multiple={true}
+            >
+                <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">Click or drag files to this area to upload</p>
+                <p className="ant-upload-hint">
+                    Support for a single or bulk upload.
+                </p>
+            </Dragger>
             <Button
                 type="primary"
                 onClick={handleUpload}

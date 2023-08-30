@@ -11,7 +11,14 @@ const { TextArea } = Input;
 
 export default function EditForm(props) {
 
-  const { record, form, onSubmit, rest,uploadFileIfNotBusy } = props;
+  const { 
+    record, 
+    form, 
+    onSubmit, 
+    rest,
+    fetchBatchesIfNotBusy,
+    accessToken
+  } = props;
 
   const inserting = (record.id === undefined || record.id === null)
 
@@ -126,7 +133,7 @@ export default function EditForm(props) {
         </Col>
         <Col span={24}>
           {
-            inserting?<div></div>:<FileUpload record={record} uploadFileIfNotBusy={uploadFileIfNotBusy}></FileUpload>
+            inserting?<div></div>:<FileUpload record={record} fetchBatchesIfNotBusy={fetchBatchesIfNotBusy} accessToken={accessToken}></FileUpload>
             
           }
             

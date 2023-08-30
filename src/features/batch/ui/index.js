@@ -207,8 +207,9 @@ export default function Index(props) {
                   record={currentRecord}
                   rest={rest}
                   form={form}
+                  accessToken = {accessToken}
                   onSubmit={upsertBatchIfNotBusy}
-                  uploadFileIfNotBusy={uploadFileIfNotBusy}
+                  fetchBatchesIfNotBusy={fetchBatchesIfNotBusy}
                 />
               </Spin>
             </Drawer>
