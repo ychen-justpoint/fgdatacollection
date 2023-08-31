@@ -40,6 +40,7 @@ export default function myTable(props) {
     handleDelete,
     handleValidate,
     handleCollect,
+    handlePublish,
     handleTableRefresh
   } = props;
 
@@ -133,6 +134,16 @@ export default function myTable(props) {
               <FileProtectOutlined />
             </Button>
           </Popconfirm>
+
+          <Popconfirm title="Are you sure to publish the batch?"
+            onConfirm={() => { handlePublish(record) }}
+            okText="Yes"
+            cancelText="No">
+            <Button>
+              <ApartmentOutlined />
+            </Button>
+          </Popconfirm>
+
           <Button onClick={() => { handleOpenEditor(record) }}>
             <EditOutlined />
           </Button>

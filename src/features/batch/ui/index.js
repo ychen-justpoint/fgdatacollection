@@ -31,6 +31,7 @@ export default function Index(props) {
     deleteBatchIfNotBusy,
     validateBatchIfNotBusy,
     collectBatchIfNotBusy,
+    publishBatchIfNotBusy,
     updateSearchstateIfNotBusy,
     uploadFileIfNotBusy,
     ...rest
@@ -131,6 +132,10 @@ export default function Index(props) {
     collectBatchIfNotBusy(record)
   }
 
+  const handlePublish = (record) => {
+    publishBatchIfNotBusy(record)
+  }
+
   const handleSearchFormSubmitted = (data) => {
 
     let originNumberOfSearch = repoRef.current.search.numberofsearch
@@ -178,6 +183,7 @@ export default function Index(props) {
               handleDelete={handleDelete}
               handleValidate={handleValidate}
               handleCollect = {handleCollect}
+              handlePublish = {handlePublish}
               handleTableRefresh = {handleTableRefresh}
 
             />

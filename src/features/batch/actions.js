@@ -464,6 +464,48 @@ export const collectBatchIfNotBusy = (data) => (dispatch, getState) => {
     }
 }
 
+const publishBatch = (data) => dispatch => {
+
+    dispatch(processingAction())
+
+    let url = resourceUrl + data.id + '/publish'
+
+    const myHeaders = new Headers({ "Content-Type": "application/json", "Authorization": "Bearer " + accessToken.getAccessToken() });
+
+    const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow'
+    }
+
+    return fetch(url, requestOptions)
+        .then(res => {
+            if (!res.ok) {
+                //throw new Error(res.statusText);
+                res.json().then(
+                    (json) => {
+                        throw new Error(JSON.stringify(json));
+                    }
+                ).catch(
+                    (error) => { console.log(error); dispatch(failedAction(error.message)); }
+                )
+            }
+            else {
+                dispatch(updatedAction()); dispatch(fetchBatchesIfNotBusy());
+            }
+        })
+        .catch(
+            (error) => { console.log(error); dispatch(failedAction(error.message)); }
+        )
+}
+
+export const publishBatchIfNotBusy = (data) => (dispatch, getState) => {
+    let state = myState(getState())
+    if (ifNotBusy(state)) {
+        return dispatch(publishBatch(data))
+    }
+}
+
 export const updateSearchstateIfNotBusy = (data) => (dispatch, getState) => {
     let state = myState(getState())
     if (ifNotBusy(state)) {

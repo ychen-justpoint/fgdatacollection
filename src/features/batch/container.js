@@ -6,6 +6,7 @@ import {
   deleteBatchIfNotBusy,
   validateBatchIfNotBusy,
   collectBatchIfNotBusy,
+  publishBatchIfNotBusy,
   updateSearchstateIfNotBusy,
   uploadFileIfNotBusy,
   accessToken
@@ -36,7 +37,8 @@ const mapDispatchToProps = dispatch => {
       deleteBatchIfNotBusy: (data) => dispatch(deleteBatchIfNotBusy(data)),
       updateSearchstateIfNotBusy : (data) => dispatch(updateSearchstateIfNotBusy(data)),
       uploadFileIfNotBusy : (data) => dispatch(uploadFileIfNotBusy(data)),
-      collectBatchIfNotBusy : (data) => dispatch(collectBatchIfNotBusy(data))
+      collectBatchIfNotBusy : (data) => dispatch(collectBatchIfNotBusy(data)),
+      publishBatchIfNotBusy : (data) => dispatch(publishBatchIfNotBusy(data))
       }
 }
 
