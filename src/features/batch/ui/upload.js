@@ -56,12 +56,12 @@ const FileUpload = (props) => {
 
             file.status = "uploading";
 
-            const fileContent = await readFile(file);
+            const fileContent = await readFileAsBase64(file);
 
             const data = {
                 record: record,
                 filename: fileName,
-                content: btoa(fileContent)
+                content: fileContent
             };
 
             await uploadFile(data);
@@ -87,7 +87,7 @@ const FileUpload = (props) => {
             try {
                 
                 file.status = "uploading";
-                const fileContent = await readFile(file.originFileObj);
+                const fileContent = await readFileAsText(file.originFileObj);
             
 
                 const data = {
@@ -146,11 +146,23 @@ const FileUpload = (props) => {
         });
     };
 
-    const readFile = (file) => {
+    const readFileAsText = (file) => {
         return new Promise((resolve) => {
             const reader = new FileReader();
-            reader.onload = (event) => resolve(event.target.result);
+            reader.onload = (event) => resolve(
+                event.target.result
+            );
             reader.readAsText(file);
+        });
+    };
+
+    const readFileAsBase64 = (file) => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (event) => resolve(
+                event.target.result.split(',')[1]
+            );
+            reader.readAsDataURL(file);
         });
     };
 
