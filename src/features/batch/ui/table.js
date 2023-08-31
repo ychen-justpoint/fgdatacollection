@@ -39,6 +39,7 @@ export default function myTable(props) {
     handleOpenEditor,
     handleDelete,
     handleValidate,
+    handleCollect,
     handleTableRefresh
   } = props;
 
@@ -115,7 +116,16 @@ export default function myTable(props) {
       key: 'action',
       render: (text, record, index) => (
         <Space size="middle">
-          <Popconfirm title="Are you sure to validate batch?"
+          <Popconfirm title="Are you sure to collect the batch?"
+            onConfirm={() => { handleCollect(record) }}
+            okText="Yes"
+            cancelText="No">
+            <Button>
+              <BuildOutlined />
+            </Button>
+          </Popconfirm>
+
+          <Popconfirm title="Are you sure to validate the batch?"
             onConfirm={() => { handleValidate(record) }}
             okText="Yes"
             cancelText="No">
