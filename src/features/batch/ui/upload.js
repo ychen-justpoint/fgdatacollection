@@ -67,13 +67,14 @@ const FileUpload = (props) => {
             await uploadFile(data);
 
             file.status = "done";
-            
+
             // Return false to prevent immediate upload
             return false;
 
         } catch (error) {
+
             file.status = "error";
-            message.error(`File "${file.name}" upload failed.`);
+            // message.error(`File "${file.name}" upload failed.`);
 
         }
         
@@ -83,9 +84,11 @@ const FileUpload = (props) => {
 
         for (const file of fileList) {
 
-            file.status = "uploading";
-            const fileContent = await readFile(file.originFileObj);
             try {
+                
+                file.status = "uploading";
+                const fileContent = await readFile(file.originFileObj);
+            
 
                 const data = {
                     record: record,
@@ -94,15 +97,13 @@ const FileUpload = (props) => {
                 };
 
                 await uploadFile(data);
-                // uploadFileIfNotBusy(data);
+                
 
             } catch (error) {
                 file.status = "error";
-                message.error(`File "${file.name}" upload failed.`);
-
             }
             file.status = "done";
-            message.success(`File "${file.name}" uploaded successfully!`);
+            // message.success(`File "${file.name}" uploaded successfully!`);
         }
 
         fetchBatchesIfNotBusy();
