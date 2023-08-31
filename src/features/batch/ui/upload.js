@@ -46,28 +46,37 @@ const FileUpload = (props) => {
         setFileList(info.fileList);
     };
 
-    const handleBeforeUpload = (file) => {
+    const handleBeforeUpload = async (file) => {
 
-        // setFileList([...fileList, file]);
+        try {
 
-        // const fileName = file.name;
+            setFileList([...fileList, file]);
 
-        // const reader = new FileReader();
-        // reader.readAsText(file);
+            const fileName = file.name;
 
-        // reader.onload = (event) => {
-        //     const fileContent = event.target.result;
-        //     const data = {
-        //         record: record,
-        //         filename: fileName,
-        //         content: btoa(fileContent)
-        //     };
+            file.status = "uploading";
 
-        //     uploadFileIfNotBusy(data);
-        // };
+            const fileContent = await readFile(file);
 
-        // Return false to prevent immediate upload
-        return false;
+            const data = {
+                record: record,
+                filename: fileName,
+                content: btoa(fileContent)
+            };
+
+            await uploadFile(data);
+
+            file.status = "done";
+            
+            // Return false to prevent immediate upload
+            return false;
+
+        } catch (error) {
+            file.status = "error";
+            message.error(`File "${file.name}" upload failed.`);
+
+        }
+        
     };
 
     const handleUpload = async () => {
@@ -75,7 +84,7 @@ const FileUpload = (props) => {
         for (const file of fileList) {
 
             file.status = "uploading";
-            const fileContent = await readFileAsBase64(file.originFileObj);
+            const fileContent = await readFile(file.originFileObj);
             try {
 
                 const data = {
@@ -88,19 +97,19 @@ const FileUpload = (props) => {
                 // uploadFileIfNotBusy(data);
 
             } catch (error) {
-                file.status = "error";    
+                file.status = "error";
                 message.error(`File "${file.name}" upload failed.`);
 
             }
             file.status = "done";
             message.success(`File "${file.name}" uploaded successfully!`);
         }
-        
+
         fetchBatchesIfNotBusy();
     };
 
     const uploadFile = (data) => {
-        
+
         return new Promise((resolve) => {
 
             const resourceUrl = process.env.REACT_APP_API + 'api/batches/';
@@ -136,7 +145,7 @@ const FileUpload = (props) => {
         });
     };
 
-    const readFileAsBase64 = (file) => {
+    const readFile = (file) => {
         return new Promise((resolve) => {
             const reader = new FileReader();
             reader.onload = (event) => resolve(event.target.result);
@@ -171,14 +180,14 @@ const FileUpload = (props) => {
                     Support for a single or bulk upload.
                 </p>
             </Dragger>
-            <Button
+            {/* <Button
                 type="primary"
                 onClick={handleUpload}
                 disabled={fileList.length === 0}
                 style={{ marginTop: 16 }}
             >
                 Upload
-            </Button>
+            </Button> */}
         </div>
     );
 };
