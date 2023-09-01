@@ -35,11 +35,31 @@ const FileUpload = (props) => {
 
     const [fileList, setFileList] = useState([]);
 
-    const handleOnRemove = (file) => {
-        const index = fileList.indexOf(file);
-        const newFileList = fileList.slice();
-        newFileList.splice(index, 1);
-        setFileList(newFileList);
+    const handleOnRemove = async (file) => {
+        // const index = fileList.indexOf(file);
+        // const newFileList = fileList.slice();
+        // newFileList.splice(index, 1);
+        // setFileList(newFileList);
+
+        try {
+
+            const fileName = file.name;
+
+            const data = {
+                record: record,
+                filename: fileName
+            };
+
+            await deleteFile(data);
+
+
+        } catch (error) {
+
+            file.status = "error";
+            // message.error(`File "${file.name}" upload failed.`);
+            throw new Error(error.message);
+        }
+
     };
 
     const handleOnChange = (info) => {
@@ -74,6 +94,7 @@ const FileUpload = (props) => {
         } catch (error) {
 
             file.status = "error";
+            throw new Error(error.message);
             // message.error(`File "${file.name}" upload failed.`);
 
         }
@@ -146,6 +167,42 @@ const FileUpload = (props) => {
         });
     };
 
+    const deleteFile = (data) => {
+
+        return new Promise((resolve) => {
+
+            const resourceUrl = process.env.REACT_APP_API + 'api/batches/';
+
+            let url = resourceUrl + data.record.id + '/files?filename=' + encodeURIComponent(data.filename)
+
+            const myHeaders = new Headers({ "Content-Type": "application/json", "Authorization": "Bearer " + accessToken.getAccessToken() });
+
+            const body = JSON.stringify(data);
+
+            const requestOptions = {
+                method: 'DELETE',
+                headers: myHeaders,
+                redirect: 'follow'
+            }
+
+            fetch(url, requestOptions)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(res.statusText);
+                    } else {
+                        return res.json()
+                    }
+                })
+                .then(
+                    (json) => { resolve(json) }
+                )
+                .catch(
+                    (error) => { throw new Error(error.message); }
+                )
+
+        });
+    };
+
     const readFileAsText = (file) => {
         return new Promise((resolve) => {
             const reader = new FileReader();
@@ -181,7 +238,7 @@ const FileUpload = (props) => {
                 name='file'
                 fileList={fileList}
                 beforeUpload={handleBeforeUpload}
-                //   onRemove={handleOnRemove}
+                onRemove={handleOnRemove}
                 onChange={handleOnChange}
                 multiple={true}
             >
