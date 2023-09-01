@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Table, Divider, Tag, Popconfirm, Space, Drawer, Button, Select } from 'antd';
+import { Table, Divider, Tag, Popconfirm, Space, Drawer, Button, Select, Tooltip } from 'antd';
 import {
   HomeOutlined,
   SettingFilled,
@@ -83,10 +83,10 @@ export default function myTable(props) {
       sorter: true,
       sortDirections: ['descend', 'ascend'],
       render: (text, record, index) => (
-        rest.stream ? 
-        (<Select disabled defaultValue={text}>
-          {rest.stream.data.value.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
-        </Select>) : <div/>
+        rest.stream ?
+          (<Select disabled defaultValue={text}>
+            {rest.stream.data.value.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
+          </Select>) : <div />
       )
     },
     {
@@ -97,11 +97,11 @@ export default function myTable(props) {
       sortDirections: ['descend', 'ascend'],
       render: (text, record, index) => (
         rest.source ?
-        <Select disabled defaultValue={text}>
-          {rest.source.data.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
-        </Select>
-        :
-        <div/>
+          <Select disabled defaultValue={text}>
+            {rest.source.data.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
+          </Select>
+          :
+          <div />
       )
     },
     {
@@ -110,7 +110,7 @@ export default function myTable(props) {
       key: 'createddate',
       sorter: false,
       sortDirections: ['descend', 'ascend'],
-      render : (text,record,index) => (text && new Date(text).toString())
+      render: (text, record, index) => (text && new Date(text).toString())
     },
     {
       title: 'Action',
@@ -121,27 +121,34 @@ export default function myTable(props) {
             onConfirm={() => { handleCollect(record) }}
             okText="Yes"
             cancelText="No">
-            <Button>
-              <BuildOutlined />
-            </Button>
+            <Tooltip placement="topRight" title="Collect the Batch">
+              <Button>
+                <BuildOutlined />
+              </Button>
+            </Tooltip>
+
           </Popconfirm>
 
           <Popconfirm title="Are you sure to validate the batch?"
             onConfirm={() => { handleValidate(record) }}
             okText="Yes"
             cancelText="No">
-            <Button>
-              <FileProtectOutlined />
-            </Button>
+            <Tooltip placement="topRight" title="Validate the Batch">
+              <Button>
+                <FileProtectOutlined />
+              </Button>
+            </Tooltip>
           </Popconfirm>
 
           <Popconfirm title="Are you sure to publish the batch?"
             onConfirm={() => { handlePublish(record) }}
             okText="Yes"
             cancelText="No">
-            <Button>
-              <ApartmentOutlined />
-            </Button>
+            <Tooltip placement="topRight" title="Publish the Batch">
+              <Button>
+                <ApartmentOutlined />
+              </Button>
+            </Tooltip>
           </Popconfirm>
 
           <Button onClick={() => { handleOpenEditor(record) }}>
@@ -184,7 +191,7 @@ export default function myTable(props) {
           {`Total : ${repo.data && repo.data['@odata.count']}`}
           {`Selected : ${selectedRowKeys.length}`}
           <Button onClick={() => { handleOpenEditor({ id: null }) }}> <PlusOutlined /> </Button>
-          <Button onClick={() => { handleTableRefresh()}}> <ReloadOutlined /> </Button>
+          <Button onClick={() => { handleTableRefresh() }}> <ReloadOutlined /> </Button>
         </Space>
       </div>
 
