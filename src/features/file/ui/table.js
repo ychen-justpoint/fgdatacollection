@@ -50,6 +50,16 @@ export default function StreamTable(props) {
       sortDirections: ['descend', 'ascend']
     },
     {
+      title: 'Processed?',
+      dataIndex: 'isprocessed',
+      key: 'isprocessed',
+      sorter: false,
+      sortDirections: ['descend', 'ascend'],
+      render:(text, record, index)=>(
+        <Checkbox checked={text}/>
+      )
+    },
+    {
       title: 'Container',
       dataIndex: 'container',
       key: 'container',

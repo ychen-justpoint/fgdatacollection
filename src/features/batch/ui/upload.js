@@ -41,29 +41,47 @@ const FileUpload = (props) => {
         // newFileList.splice(index, 1);
         // setFileList(newFileList);
 
-        try {
+        // try {
 
-            const fileName = file.name;
+        //     const fileName = file.name;
 
-            const data = {
-                record: record,
-                filename: fileName
-            };
+        //     const data = {
+        //         record: record,
+        //         filename: fileName
+        //     };
 
-            await deleteFile(data);
+        //     await deleteFile(data);
 
 
-        } catch (error) {
+        // } catch (error) {
 
-            file.status = "error";
-            // message.error(`File "${file.name}" upload failed.`);
-            throw new Error(error.message);
-        }
+        //     file.status = "error";
+        //     // message.error(`File "${file.name}" upload failed.`);
+        //     throw new Error(error.message);
+        // }
 
     };
 
     const handleOnChange = (info) => {
         setFileList(info.fileList);
+
+        // let fileList = [...info.fileList];
+
+        // You can apply custom content to each file in the fileList here
+        // fileList = fileList.map((file) => {
+        //     if (file.status ==='done') {
+        //         // If the file has been successfully uploaded, display "uploaded" next to the file name
+        //         file.customContent = (
+        //             <span>
+        //                 {file.name} (uploaded)
+        //             </span>
+        //         );
+        //     }
+        //     return file;
+        // });
+
+        // setFileList(fileList);
+
     };
 
     const handleBeforeUpload = async (file) => {
@@ -75,8 +93,9 @@ const FileUpload = (props) => {
             const fileName = file.name;
 
             file.status = "uploading";
-
+            
             const fileContent = await readFileAsBase64(file);
+            file.percent = 50;
 
             const data = {
                 record: record,
@@ -85,8 +104,14 @@ const FileUpload = (props) => {
             };
 
             await uploadFile(data);
-
+            // file.percent = 99;
             file.status = "done";
+
+            file.customContent = (
+                <span>
+                    {file.name} (uploaded)
+                </span>
+            );
 
             // Return false to prevent immediate upload
             return false;
@@ -98,7 +123,7 @@ const FileUpload = (props) => {
             // message.error(`File "${file.name}" upload failed.`);
 
         }
-        
+
     };
 
     const handleUpload = async () => {
@@ -106,24 +131,26 @@ const FileUpload = (props) => {
         for (const file of fileList) {
 
             try {
-                
+
                 file.status = "uploading";
-                const fileContent = await readFileAsText(file.originFileObj);
-            
+                const fileContent = await readFileAsBase64(file.originFileObj);
 
                 const data = {
                     record: record,
                     filename: file.name,
-                    content: btoa(fileContent)
+                    content: fileContent
                 };
 
                 await uploadFile(data);
+
+                file.status = "done";
                 
+                message.success(`File "${file.name}" uploaded successfully!`);
 
             } catch (error) {
                 file.status = "error";
             }
-            file.status = "done";
+            
             // message.success(`File "${file.name}" uploaded successfully!`);
         }
 
@@ -167,41 +194,41 @@ const FileUpload = (props) => {
         });
     };
 
-    const deleteFile = (data) => {
+    // const deleteFile = (data) => {
 
-        return new Promise((resolve) => {
+    //     return new Promise((resolve) => {
 
-            const resourceUrl = process.env.REACT_APP_API + 'api/batches/';
+    //         const resourceUrl = process.env.REACT_APP_API + 'api/batches/';
 
-            let url = resourceUrl + data.record.id + '/files?filename=' + encodeURIComponent(data.filename)
+    //         let url = resourceUrl + data.record.id + '/files?filename=' + encodeURIComponent(data.filename)
 
-            const myHeaders = new Headers({ "Content-Type": "application/json", "Authorization": "Bearer " + accessToken.getAccessToken() });
+    //         const myHeaders = new Headers({ "Content-Type": "application/json", "Authorization": "Bearer " + accessToken.getAccessToken() });
 
-            const body = JSON.stringify(data);
+    //         const body = JSON.stringify(data);
 
-            const requestOptions = {
-                method: 'DELETE',
-                headers: myHeaders,
-                redirect: 'follow'
-            }
+    //         const requestOptions = {
+    //             method: 'DELETE',
+    //             headers: myHeaders,
+    //             redirect: 'follow'
+    //         }
 
-            fetch(url, requestOptions)
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error(res.statusText);
-                    } else {
-                        return res.json()
-                    }
-                })
-                .then(
-                    (json) => { resolve(json) }
-                )
-                .catch(
-                    (error) => { throw new Error(error.message); }
-                )
+    //         fetch(url, requestOptions)
+    //             .then(res => {
+    //                 if (!res.ok) {
+    //                     throw new Error(res.statusText);
+    //                 } else {
+    //                     return res.json()
+    //                 }
+    //             })
+    //             .then(
+    //                 (json) => { resolve(json) }
+    //             )
+    //             .catch(
+    //                 (error) => { throw new Error(error.message); }
+    //             )
 
-        });
-    };
+    //     });
+    // };
 
     const readFileAsText = (file) => {
         return new Promise((resolve) => {

@@ -104,6 +104,16 @@ export default function EditForm(props) {
           </Form.Item>
         </Col>
       </Row>
+      <Row>
+        <Col span={12}>
+          <Form.Item
+            name="isprocessed"
+            label="Processed?" valuePropName="checked">
+            <Checkbox placeholder="Processed?" disabled={!inserting}/>
+          </Form.Item>
+        </Col>
+      </Row>
+      
     </Form>
   );
 }
