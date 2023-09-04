@@ -1,11 +1,7 @@
-import React, { useEffect, useState, useCallback, useRef,useContext } from 'react';
+import React, { useEffect, useState, useRef,useContext } from 'react';
 
-import { Collapse, message, Modal, Spin, Form, Layout, Menu, Breadcrumb, Typography, Row, Col, Divider, Drawer, Button, Space, Radio } from 'antd';
+import { Collapse, message, Spin, Form, Layout, Row, Col, Drawer, Button, Space } from 'antd';
 
-import {
-  UnorderedListOutlined,
-  CalendarOutlined
-} from '@ant-design/icons';
 
 import { default as MyTable } from './table';
 import { default as EditForm } from './edit-form';
@@ -15,12 +11,8 @@ import { default as CommonContext } from '../../../app/common-context';
 
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../../../authConfig";
-import { json } from 'react-router-dom';
 
 const { Panel } = Collapse;
-const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
-const { Text, Title } = Typography;
 
 export default function Index(props) {
 

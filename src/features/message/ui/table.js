@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Table, Divider, Tag, Popconfirm, Space, Drawer, Button, Select } from 'antd';
+import { Table, Popconfirm, Space, Button, Select } from 'antd';
 import {
-  HomeOutlined,
-  SettingFilled,
   PlusOutlined,
-  BuildOutlined,
-  ApartmentOutlined,
   EditOutlined,
   DeleteOutlined,
   ReloadOutlined

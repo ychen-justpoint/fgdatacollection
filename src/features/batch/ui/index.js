@@ -1,11 +1,6 @@
-import React, { useEffect, useState, useCallback, useRef, useContext } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 
-import { Collapse, message, Modal, Spin, Form, Layout, Menu, Breadcrumb, Typography, Row, Col, Divider, Drawer, Button, Space, Radio } from 'antd';
-
-import {
-  UnorderedListOutlined,
-  CalendarOutlined
-} from '@ant-design/icons';
+import { Collapse, message, Spin, Form, Layout, Row, Col, Drawer, Button, Space } from 'antd';
 
 import { default as MyTable } from './table';
 import { default as EditForm } from './edit-form';
@@ -17,9 +12,6 @@ import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../../../authConfig";
 
 const { Panel } = Collapse;
-const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
-const { Text, Title } = Typography;
 
 export default function Index(props) {
 
@@ -117,7 +109,7 @@ export default function Index(props) {
 
   const handleEditFormSave = () => {
     form.submit();
-    // onDrawClose();
+    onDrawClose();
   }
 
   const handleDelete = (record) => {
