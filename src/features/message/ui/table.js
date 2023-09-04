@@ -56,12 +56,20 @@ export default function myTable(props) {
       sortDirections: ['descend', 'ascend']
     },
     {
-      title: 'Json Data',
-      dataIndex: 'jsondataid',
-      key: 'jsondataid',
+      title: 'Logdate',
+      dataIndex: 'logdate',
+      key: 'logdate',
       sorter: true,
-      sortDirections: ['descend', 'ascend']
+      sortDirections: ['descend', 'ascend'],
+      render : (text,record,index) => (text && new Date(text).toString())
     },
+    // {
+    //   title: 'Json Data',
+    //   dataIndex: 'jsondataid',
+    //   key: 'jsondataid',
+    //   sorter: true,
+    //   sortDirections: ['descend', 'ascend']
+    // },
     {
       title: 'Message',
       dataIndex: 'message1',

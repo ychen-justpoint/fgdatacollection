@@ -102,7 +102,12 @@ export default function EditForm(props) {
         <Col span={24}>
           <Form.Item
             name="schema"
-            label="Schema">
+            label="Schema"
+            rules={[
+              {
+                required: true, message: 'Schema is required.'
+              },
+            ]}>
             <Input.TextArea rows={4}  placeholder="schema" />
             {/* <JSONInput
               id="json_editor"
