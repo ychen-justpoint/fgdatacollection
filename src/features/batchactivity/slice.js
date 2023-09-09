@@ -81,7 +81,7 @@ const mySlice = createSlice({
             currentpage: 1,
             itemperpage: 5,
             sortby: 'logdate',
-            sortorder: 'ascend',
+            sortorder: 'descend',
             numberofsearch: 0
          },
          data: [],
