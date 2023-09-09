@@ -199,6 +199,7 @@ export default function Index(props) {
             repo={{
               ...repo
             }}
+            accessToken = {accessToken}
             rest={rest}
             handleTableChange={handleTableChange}
             selectedRowKeys={selectedRowKeys}

@@ -114,9 +114,7 @@ export default function myTable(props) {
 
   const getRowClassName = record => {
     // Define your logic to determine the background color based on the score
-    if (record.status === 'valid') {
-      return 'valid-batch-row';
-    } else if (record.status === 'invalid') {
+    if (record.status === 'invalid') {
       return 'invalid-batch-row';
     } else {
       return 'init-batch-row';
