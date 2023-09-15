@@ -268,6 +268,7 @@ const FileUpload = (props) => {
                 onRemove={handleOnRemove}
                 onChange={handleOnChange}
                 multiple={true}
+                accept='.csv, .txt, .xlsx'
             >
                 <p className="ant-upload-drag-icon">
                     <InboxOutlined />
