@@ -28,6 +28,7 @@ export default function SearchForm(props) {
                         <Select>
                             <Option key={null} value={null}></Option>
                             <Option value='init'>init</Option>
+                            <Option value='error'>error</Option>
                             <Option value='closed'>closed</Option>
                             <Option value='invalid'>invalid</Option>
                             <Option value='valid'>valid</Option>
