@@ -103,7 +103,7 @@ export default function EditForm(props) {
           <Form.Item
             name="json"
             label="Json">
-            <Input.TextArea rows={4}  placeholder="Json" />
+            <Input.TextArea rows={8}  placeholder="Json" />
             {/* <JSONInput
               id="json_editor"
               placeholder={jsonData}

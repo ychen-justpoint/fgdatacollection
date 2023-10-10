@@ -71,7 +71,7 @@ export default function EditForm(props) {
           <Form.Item
             name="message"
             label="Message">
-            <Input.TextArea rows={4}  placeholder="message" />
+            <Input.TextArea rows={8}  placeholder="message" />
           </Form.Item>
         </Col>
       </Row>

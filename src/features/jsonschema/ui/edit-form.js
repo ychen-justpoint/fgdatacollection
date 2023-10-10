@@ -108,7 +108,7 @@ export default function EditForm(props) {
                 required: true, message: 'Schema is required.'
               },
             ]}>
-            <Input.TextArea rows={4}  placeholder="schema" />
+            <Input.TextArea rows={8}  placeholder="schema" />
             {/* <JSONInput
               id="json_editor"
               placeholder={jsonData}
@@ -123,7 +123,7 @@ export default function EditForm(props) {
           <Form.Item
             name="template"
             label="Template">
-            <Input.TextArea rows={4} placeholder="Template" />
+            <Input.TextArea rows={8} placeholder="Template" />
           </Form.Item>
         </Col>
 
