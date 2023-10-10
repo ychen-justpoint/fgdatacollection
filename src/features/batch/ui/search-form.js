@@ -30,7 +30,6 @@ export default function SearchForm(props) {
                             <Option value='init'>init</Option>
                             <Option value='error'>error</Option>
                             <Option value='closed'>closed</Option>
-                            <Option value='invalid'>invalid</Option>
                             <Option value='valid'>valid</Option>
                             <Option value='published'>published</Option>
                         </Select>
