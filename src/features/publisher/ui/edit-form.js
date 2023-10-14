@@ -73,11 +73,7 @@ export default function EditForm(props) {
           <Form.Item
             name="destinationid"
             label="Destination"
-            rules={[
-              {
-                required: true, message: 'Destination is required.'
-              },
-            ]}>
+            >
             <Select 
               showSearch
               placeholder="Search for Destination"
