@@ -25,12 +25,13 @@ export default function Index(props) {
 
   const {
     repo,
+    batchid,
+    fileid,
     accessToken,
-    fetchFileIfNotBusy,
-    upsertFileIfNotBusy ,
-    deleteFileIfNotBusy,
-    updateSearchstateIfNotBusy,
-    buildBatchIfNotBusy,
+    fetchBatchFileIfNotBusy,
+    upsertBatchFileIfNotBusy,
+    deleteBatchFileIfNotBusy,
+    updateBatchFileSearchstateIfNotBusy,
     ...rest
   } = props;
   
@@ -62,7 +63,12 @@ export default function Index(props) {
   }, [repo.msg.latest])
 
   useEffect(() => {
-       fetchFileIfNotBusy()
+    let b = {
+      ...repo.search,
+      batchid : batchid,
+      fileid : fileid
+    };
+    fetchBatchFileIfNotBusy(b)
   }, [repo.search])
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -83,7 +89,7 @@ export default function Index(props) {
       numberofsearch: repoRef.current.search.numberofsearch + 1
     };
 
-    updateSearchstateIfNotBusy(b);
+    updateBatchFileSearchstateIfNotBusy(b)
     
   }
 
@@ -92,14 +98,7 @@ export default function Index(props) {
       ...repoRef.current.search,
       numberofsearch: repoRef.current.search.numberofsearch + 1
     };
-
-    updateSearchstateIfNotBusy(b);
-    
-  }
-
-  const handleBuildBatch = (data) => {
-
-    buildBatchIfNotBusy({fileids : data});
+    updateBatchFileSearchstateIfNotBusy(b)
     
   }
 
@@ -122,36 +121,36 @@ export default function Index(props) {
   }
 
   const handleDelete = (record) => {
-    deleteFileIfNotBusy(record)
+    deleteBatchFileIfNotBusy(record)
   }
 
   const handleSearchFormSubmitted = (data) => {
 
     let originNumberOfSearch = repoRef.current.search.numberofsearch
 
-    updateSearchstateIfNotBusy(
+    updateBatchFileSearchstateIfNotBusy(
       {
         ...repoRef.current.search,
-        sourceid : data.sourceid,
-        streamid : data.streamid,
+        batchid : data.batchid,
+        fileid : data.fileid,
         currentpage: 1,
         numberofsearch: originNumberOfSearch + 1
       }
-    );
+    )
 
     
   }
 
   const { common, updateCommon } = useContext(CommonContext);
 
-  common.module = 'File';
+  common.module = 'Batch File';
 
   updateCommon(common);
 
   return (
     <div>
       <Layout>
-      <Row>
+      {/* <Row>
         <Col span={24}>
           <Collapse>
             <Panel header="Search" key="1">
@@ -159,7 +158,7 @@ export default function Index(props) {
             </Panel>
           </Collapse>
         </Col>
-      </Row>
+      </Row> */}
       <Row>
         <Col span={24}>
           <MyTable
@@ -174,7 +173,6 @@ export default function Index(props) {
             handleOpenEditor={handleOpenEditor}
             handleDelete={handleDelete}
             handleTableRefresh = {handleTableRefresh}
-            handleBuildBatch = {handleBuildBatch}
           />
         </Col>
       </Row>
@@ -208,7 +206,7 @@ export default function Index(props) {
                 record={currentRecord}
                 rest={rest}
                 form={form}
-                onSubmit={upsertFileIfNotBusy}
+                onSubmit={upsertBatchFileIfNotBusy}
               />
             </Spin>
           </Drawer>

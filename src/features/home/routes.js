@@ -2,6 +2,7 @@ import React , { Suspense, lazy } from 'react';
 import { Routes, Route, useLocation,Link } from 'react-router-dom';
 import { Alert, Breadcrumb } from 'antd';
 
+const SourcePage = lazy(() => import('../source/container'));
 const StreamPage = lazy(() => import('../stream/container'));
 const BatchPage = lazy(() => import('../batch/container'));
 const MessagePage = lazy(() => import('../message/container'));
@@ -17,6 +18,8 @@ const ActivityPage = lazy(() => import('../activity/container'));
 
 const Dashboard = lazy(() => import('../dashboard/container'));
 
+const BatchFilePage = lazy(() => import('../batchfile/container'));
+
 //import {default as StreamPage} from '../stream/stream-container';
 
 function HomeRoutes() {
@@ -31,6 +34,7 @@ function HomeRoutes() {
         <Routes>
           <Route path="/" element={<Dashboard />}/>
           <Route path= "/stream" element={<StreamPage />}/>
+          <Route path= "/source" element={<SourcePage />}/>
           <Route path= "/batch" element={<BatchPage />}/>
           <Route path= "/message" element={<MessagePage />}/>
           <Route path= "/collector" element={<CollectorPage />}/>
@@ -42,6 +46,8 @@ function HomeRoutes() {
           <Route path= "/data" element={<JsonDataPage />}/>
           <Route path= "/file" element={<FilePage />}/>
           <Route path= "/activity" element={<ActivityPage />}/>
+          <Route path= "/batchfile" element={<BatchFilePage />}/>
+          
         </Routes>
       </Suspense>
       

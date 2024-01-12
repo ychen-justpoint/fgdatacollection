@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Form, Input, InputNumber, Select, Tooltip, Button, Row, Col, DatePicker, Checkbox } from 'antd';
@@ -49,16 +49,40 @@ export default function EditForm(props) {
             <Input placeholder="Id" disabled />
           </Form.Item>
         </Col>
+      </Row>
+      <Row gutter={16}>
         <Col span={12}>
           <Form.Item
-            name="batchid"
-            label="Batch Id"
-            rules={[
-              {
-                required: true, message: 'Batch is required.'
-              },
-            ]}>
-            <Input placeholder="Batchid" disabled={!inserting}/>
+            name={'streamid'}
+            label="Stream"
+          >
+            <Select disabled={!inserting}
+              showSearch
+              placeholder="Search for stream"
+              optionFilterProp="items"
+              filterOption={(input, option) =>
+                option.items && option.items.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {rest.stream.data.value.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            name={'sourceid'}
+            label="Source"
+          >
+            <Select disabled={!inserting}
+              showSearch
+              placeholder="Search for source"
+              optionFilterProp="items"
+              filterOption={(input, option) =>
+                option.items && option.items.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {rest.source.data.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
+            </Select>
           </Form.Item>
         </Col>
       </Row>
@@ -72,7 +96,7 @@ export default function EditForm(props) {
                 required: true, message: 'Container is required.'
               },
             ]}>
-            <Input placeholder="container"/>
+            <Input placeholder="container" disabled={!inserting}/>
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -84,7 +108,7 @@ export default function EditForm(props) {
                 required: true, message: 'File name is required.'
               },
             ]}>
-            <Input placeholder="Filename"/>
+            <Input placeholder="Filename" disabled={!inserting}/>
           </Form.Item>
         </Col>
       </Row>
@@ -93,14 +117,14 @@ export default function EditForm(props) {
           <Form.Item
             name="collectorid"
             label="Collector">
-            <Input placeholder="collectorid" disabled={!inserting}/>
+            <Input placeholder="collectorid" disabled={!inserting} />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item
             name="format"
             label="Format">
-            <Input placeholder="format"/>
+            <Input placeholder="format" disabled={!inserting}/>
           </Form.Item>
         </Col>
       </Row>
@@ -109,11 +133,11 @@ export default function EditForm(props) {
           <Form.Item
             name="isprocessed"
             label="Processed?" valuePropName="checked">
-            <Checkbox placeholder="Processed?" disabled={!inserting}/>
+            <Checkbox placeholder="Processed?" disabled={!inserting} />
           </Form.Item>
         </Col>
       </Row>
-      
+
     </Form>
   );
 }

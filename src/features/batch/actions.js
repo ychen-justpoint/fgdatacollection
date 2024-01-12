@@ -9,10 +9,6 @@ import {
 } from './slice';
 
 import {
-    initBatchFileState as initBatchFileStateAction
-} from '../batchfile/slice'
-
-import {
     initBatchDataState as initBatchDataStateAction
 } from '../batchdata/slice'
 
@@ -130,6 +126,10 @@ const returnQueryUrl = (data) => {
     else
         queryUrl = '?' + '$count=true';
 
+    if(queryUrl)
+        queryUrl=queryUrl + '&' + '$expand=Source,Stream,BatchFiles($expand=Batch,File)'
+    else
+        queryUrl='?'+'$expand=Source,Stream,BatchFiles($expand=Batch,File)';     
     return queryUrl
 }
 
@@ -171,7 +171,6 @@ const fetchObjects = (data) => dispatch => {
             (json) => {
                 dispatch(gotAction(json));
                 dispatch(fetchStreamsIfNotBusy());
-                dispatch(initBatchFileStateAction({ batches: json.value }));
                 dispatch(initBatchDataStateAction({ batches: json.value }));
                 dispatch(initBatchActivityStateAction({ batches: json.value }));
                 dispatch(initBatchMessageStateAction({ batches: json.value }));

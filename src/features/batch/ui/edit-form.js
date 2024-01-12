@@ -131,13 +131,13 @@ export default function EditForm(props) {
           }
             
         </Col>
-        <Col span={24}>
+        {/* <Col span={24}>
           {
             inserting?<div></div>:<FileUpload record={record} fetchBatchesIfNotBusy={fetchBatchesIfNotBusy} accessToken={accessToken}></FileUpload>
             
           }
             
-        </Col>
+        </Col> */}
       </Row>
     </Form>
   );

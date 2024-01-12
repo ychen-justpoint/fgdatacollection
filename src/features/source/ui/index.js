@@ -21,19 +21,18 @@ const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 const { Text, Title } = Typography;
 
-export default function Index(props) {
+export default function SourceIndex(props) {
 
   const {
     repo,
     accessToken,
-    fetchFileIfNotBusy,
-    upsertFileIfNotBusy ,
-    deleteFileIfNotBusy,
+    fetchSourcesIfNotBusy,
+    upsertSourceIfNotBusy,
+    deleteSourceIfNotBusy,
     updateSearchstateIfNotBusy,
-    buildBatchIfNotBusy,
     ...rest
   } = props;
-  
+
   const { instance, accounts } = useMsal();
 
   const acquireAccessToken = () => {
@@ -57,12 +56,12 @@ export default function Index(props) {
   useEffect(() => {
     if (repo.msg.latest !== undefined && repo.msg.latest !== null) {
       if (repo.msg.latest.level && repo.msg.latest.data)
-        message[repo.msg.latest.level](repo.msg.latest.data, 10)
+        message[repo.msg.latest.level](repo.msg.latest.data, 5)
     }
   }, [repo.msg.latest])
 
   useEffect(() => {
-       fetchFileIfNotBusy()
+    fetchSourcesIfNotBusy()
   }, [repo.search])
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -73,36 +72,18 @@ export default function Index(props) {
 
   };
 
-  const handleTableChange = (pagination, filters, sorter) => {
-    let b = {
-      ...repoRef.current.search,
-      sortby: sorter.field !== undefined ? sorter.field : repo.search.sortby,
-      sortorder: sorter.order !== undefined ? sorter.order : repo.search.sortorder,
-      currentpage: pagination.current,
-      itemperpage: pagination.pageSize,
-      numberofsearch: repoRef.current.search.numberofsearch + 1
-    };
-
-    updateSearchstateIfNotBusy(b);
-    
-  }
-
-  const handleTableRefresh = () => {
-    let b = {
-      ...repoRef.current.search,
-      numberofsearch: repoRef.current.search.numberofsearch + 1
-    };
-
-    updateSearchstateIfNotBusy(b);
-    
-  }
-
-  const handleBuildBatch = (data) => {
-
-    buildBatchIfNotBusy({fileids : data});
-    
-  }
-
+  const handleTableChange = (pagination, filters, sorter) => (
+    updateSearchstateIfNotBusy(
+      {
+        ...repoRef.current.search,
+        sortby: sorter.field !== undefined ? sorter.field : repo.search.sortby,
+        sortorder: sorter.order !== undefined ? sorter.order : repo.search.sortorder,
+        currentpage: pagination.current,
+        itemperpage: pagination.pageSize,
+        numberofsearch: repoRef.current.search.numberofsearch + 1
+      }
+    )
+  )
   const [drawerOpen, setDrawerOpen] = useState(false);
   const onDrawClose = () => { setDrawerOpen(false) }
   const onDrawOpen = () => { setDrawerOpen(true) }
@@ -122,7 +103,7 @@ export default function Index(props) {
   }
 
   const handleDelete = (record) => {
-    deleteFileIfNotBusy(record)
+    deleteSourceIfNotBusy(record)
   }
 
   const handleSearchFormSubmitted = (data) => {
@@ -132,26 +113,25 @@ export default function Index(props) {
     updateSearchstateIfNotBusy(
       {
         ...repoRef.current.search,
-        sourceid : data.sourceid,
-        streamid : data.streamid,
+        name: data.name,
+        category: data.category,
         currentpage: 1,
         numberofsearch: originNumberOfSearch + 1
       }
     );
-
-    
   }
 
   const { common, updateCommon } = useContext(CommonContext);
 
-  common.module = 'File';
+  common.module = 'Source';
 
   updateCommon(common);
 
   return (
+
     <div>
       <Layout>
-      <Row>
+      {/* <Row>
         <Col span={24}>
           <Collapse>
             <Panel header="Search" key="1">
@@ -159,22 +139,19 @@ export default function Index(props) {
             </Panel>
           </Collapse>
         </Col>
-      </Row>
+      </Row> */}
       <Row>
         <Col span={24}>
           <MyTable
             repo={{
               ...repo
             }}
-            accessToken = {accessToken}
             rest={rest}
             handleTableChange={handleTableChange}
             selectedRowKeys={selectedRowKeys}
             handleTableSelectionChange={handleTableSelectionChange}
             handleOpenEditor={handleOpenEditor}
             handleDelete={handleDelete}
-            handleTableRefresh = {handleTableRefresh}
-            handleBuildBatch = {handleBuildBatch}
           />
         </Col>
       </Row>
@@ -208,7 +185,7 @@ export default function Index(props) {
                 record={currentRecord}
                 rest={rest}
                 form={form}
-                onSubmit={upsertFileIfNotBusy}
+                onSubmit={upsertSourceIfNotBusy}
               />
             </Spin>
           </Drawer>
@@ -216,6 +193,7 @@ export default function Index(props) {
       </Row>
     </Layout>
     </div>
+
 
   );
 }

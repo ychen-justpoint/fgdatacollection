@@ -8,7 +8,7 @@ import { Layout, Menu, Breadcrumb, Typography, Row, Col, Button, Avatar, Space }
 import {
   UserOutlined, LaptopOutlined, NotificationOutlined, ContainerOutlined,
   DiffOutlined, HomeOutlined, MailOutlined, AppstoreOutlined, SettingOutlined,
-  LogoutOutlined,UnorderedListOutlined
+  LogoutOutlined,UnorderedListOutlined,FileAddOutlined
 } from '@ant-design/icons';
 
 import { default as CommonContext } from '../../app/common-context';
@@ -31,23 +31,26 @@ function getItem(label, key, icon, children, type) {
 const items = [
   getItem('Dashboard', 'dashboard',<HomeOutlined />),
   getItem('Batch', 'batch',<UnorderedListOutlined/>),
+  getItem('File', 'file',<FileAddOutlined/>),
+  // getItem('Batch File', 'batchfile',<FileAddOutlined/>),
   // getItem('Home', 'home', <HomeOutlined />, [
   //   getItem('Batch', 'batch'),
   //   getItem('Message', 'message'),
   //   getItem('Data', 'data'),
-  //   getItem('File', 'file'),
+    
   //   getItem('Activity', 'activity'),
   // ]),
   getItem('Settings', 'settings', <AppstoreOutlined />, [
     getItem('Stream', 'stream'),
-    //getItem('Source', 'source'),
+    getItem('Source', 'source'),
+    getItem('Schema', 'jsonschema'),
     //getItem('Destination', 'destination'),
     getItem('Collector', 'collector'),
     getItem('Validator', 'validator'),
     getItem('Publisher', 'publisher'),
     getItem('Subscriber', 'subscriber'),
     getItem('Subscription', 'subscription'),
-    getItem('Schema', 'jsonschema'),
+    
 
   ])
 ];
@@ -59,6 +62,7 @@ const breadcrumbNameMap = {
   '/activity': 'Activity',
   '/file': 'File',
   '/stream':'Stream',
+  '/source':'Source',
   '/collector':'Collector',
   '/validator':'Validator',
   '/publisher' :'Publisher',
@@ -104,6 +108,9 @@ export default function Home() {
       case 'stream':
         navigate('/stream');
         break;
+      case 'source':
+        navigate('/source');
+        break;
       case 'batch':
         navigate('/batch');
         break;
@@ -140,6 +147,9 @@ export default function Home() {
       case 'dashboard':
         navigate('/');
         break;
+      case 'batchfile':
+          navigate('/batchfile');
+          break;
       default:
         navigate('/');
     }

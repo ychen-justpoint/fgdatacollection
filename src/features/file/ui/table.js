@@ -6,8 +6,11 @@ import {
   EditOutlined,
   DeleteOutlined,
   ReloadOutlined,
-  DownloadOutlined
+  DownloadOutlined,
+  FolderAddOutlined
 } from '@ant-design/icons';
+
+import { default as Detail } from './detail';
 
 const { Option } = Select;
 
@@ -22,7 +25,8 @@ export default function myTable(props) {
     handleTableSelectionChange,
     handleOpenEditor,
     handleDelete,
-    handleTableRefresh
+    handleTableRefresh,
+    handleBuildBatch
   } = props;
 
   const columns = [
@@ -34,10 +38,17 @@ export default function myTable(props) {
     //   sortDirections: ['descend', 'ascend']
     // },
     {
-      title: 'Batch Id',
-      dataIndex: ['batch','name'],
-      key: 'batchid',
-      sorter: false,
+      title: 'Stream',
+      dataIndex: ['stream','name'],
+      key: 'streamid',
+      sorter: true,
+      sortDirections: ['descend', 'ascend']
+    },
+    {
+      title: 'Source',
+      dataIndex: ['source','name'],
+      key: 'sourceid',
+      sorter: true,
       sortDirections: ['descend', 'ascend']
     },
     {
@@ -76,9 +87,9 @@ export default function myTable(props) {
       key: 'action',
       render: (text, record, index) => (
         <Space size="middle">
-          <Button onClick={() => { handleDownload(record) }}>
+          {/* <Button onClick={() => { handleDownload(record) }}>
             <DownloadOutlined />
-          </Button>
+          </Button> */}
           <Button onClick={() => { handleOpenEditor(record) }}>
             <EditOutlined />
           </Button>
@@ -195,8 +206,17 @@ export default function myTable(props) {
         <Space size="small">
           {`Total : ${repo.data['@odata.count']}`}
           {`Selected : ${selectedRowKeys.length}`}
-          <Button onClick={() => { handleOpenEditor({ id: null }) }}> <PlusOutlined /> </Button>
+          {/* <Button onClick={() => { handleOpenEditor({ id: null }) }}> <PlusOutlined /> </Button> */}
           <Button onClick={() => { handleTableRefresh()}}> <ReloadOutlined /> </Button>
+          <Popconfirm title="Are you sure to build a new batch for the selected files?"
+            onConfirm={() => { handleBuildBatch(selectedRowKeys)} }
+            okText="Yes"
+            cancelText="No">
+            <Button>
+              <FolderAddOutlined />
+            </Button>
+          </Popconfirm>
+       
         </Space>
       </div>
       
@@ -210,6 +230,9 @@ export default function myTable(props) {
         onChange={handleTableChange}
         // title={titleBar}
         loading={repo.isbusy}
+        expandable={{
+          expandedRowRender: record => <Detail record={record}></Detail>
+        }}
       />
     </div>
 

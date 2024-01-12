@@ -8,7 +8,7 @@ const { Panel } = Collapse;
 
 export default function SearchForm(props) {
 
-    const { repo,rest, onFormSubmited, formState } = props;
+    const { repo, rest, onFormSubmited, formState } = props;
 
     const [form] = Form.useForm();
 
@@ -24,37 +24,19 @@ export default function SearchForm(props) {
             <Row>
                 <Col span={12}>
                     <Form.Item
-                        name="streamid"
-                        label="Stream"
+                        name="batchid"
+                        label="Batch"
                     >
                         <Select
                             showSearch
-                            placeholder="Search for Stream"
+                            placeholder="Search for Batch"
                             optionFilterProp="items"
                             filterOption={(input, option) =>
                                 option.items && option.items.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
                         >
                             <Option key={'undefined'} value={''}></Option>
-                            {rest.stream.data.value.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
-                        </Select>
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        name="sourceid"
-                        label="Source"
-                    >
-                        <Select
-                            showSearch
-                            placeholder="Search for Source"
-                            optionFilterProp="items"
-                            filterOption={(input, option) =>
-                                option.items && option.items.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            <Option key={'undefined'} value={''}></Option>
-                            {rest.source.data.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
+                            {rest.batch.data.value.map((jd) => (<Option key={jd.id} value={jd.id}>{jd.name}</Option>))}
                         </Select>
                     </Form.Item>
                 </Col>

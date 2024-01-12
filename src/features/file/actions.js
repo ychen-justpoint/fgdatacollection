@@ -34,13 +34,22 @@ const returnQueryUrl = (data) => {
     
     let filter = null;
  
-    if (data.hasOwnProperty('batchid') && data['batchid'] !== undefined && data['batchid'] !== null && data['batchid'].length > 0) {
+    if (data.hasOwnProperty('streamid') && data['streamid'] !== undefined && data['streamid'] !== null && data['streamid'].length > 0) {
 
         if (filter){
-            filter = filter +  ' and batchid eq ' + encodeURIComponent(data['batchid']) + ''   
+            filter = filter +  ' and streamid eq ' + encodeURIComponent(data['streamid']) + ''   
         }
         else
-            filter = '$filter=batchid eq ' + encodeURIComponent(data['batchid']) + '' ;
+            filter = '$filter=streamid eq ' + encodeURIComponent(data['streamid']) + '' ;
+    }
+
+    if (data.hasOwnProperty('sourceid') && data['sourceid'] !== undefined && data['sourceid'] !== null && data['sourceid'].length > 0) {
+
+        if (filter){
+            filter = filter +  ' and sourceid eq ' + encodeURIComponent(data['sourceid']) + ''   
+        }
+        else
+            filter = '$filter=sourceid eq ' + encodeURIComponent(data['sourceid']) + '' ;
     }
 
     if(filter){
@@ -104,9 +113,9 @@ const returnQueryUrl = (data) => {
         queryUrl='?'+'$count=true';
    
     if(queryUrl)
-        queryUrl=queryUrl + '&' + '$expand=Batch,Collector'
+        queryUrl=queryUrl + '&' + '$expand=Source,Stream,Collector,BatchFiles($expand=Batch,File)'
     else
-        queryUrl='?'+'$expand=Batch,Collector';         
+        queryUrl='?'+'$expand=Source,Stream,Collector,BatchFiles($expand=Batch,File)';         
     
     return queryUrl
 }
@@ -163,6 +172,53 @@ export const fetchFileIfNotBusy = (data) => (dispatch, getState) => {
             return dispatch(fetchObjects(state.search))
         }
         return dispatch(fetchObjects(data))
+    }
+}
+
+const buildBatch = (data) => dispatch => {
+
+    dispatch(processingAction())
+    
+    const url = resourceUrl +'batch'   
+
+    const body = JSON.stringify(data);
+
+    const myHeaders = new Headers({ "Content-Type": "application/json","Authorization": "Bearer " + accessToken.getAccessToken()});
+
+    const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: body,
+        redirect: 'follow'
+      }
+
+    return fetch(url,requestOptions)
+        .then(res => {
+            if (!res.ok) {
+                //throw new Error(res.statusText);
+                res.json().then(
+                    (json) => { 
+                        throw new Error(JSON.stringify(json));
+                    }
+                ).catch(
+                    (error) => { console.log(error); dispatch(failedAction(error.message)); }
+                )
+            } else {
+                return res.json()
+            }
+        })
+        .then(
+            (json) => { dispatch(addedAction(json)); }
+        )
+        .catch(
+            (error) => { console.log(error); dispatch(failedAction(error.message)); }
+        )
+
+}
+export const buildBatchIfNotBusy = (data) => (dispatch, getState) => {
+    let state = myState(getState())
+    if (ifNotBusy(state)) {
+        return dispatch(buildBatch(data))  
     }
 }
 

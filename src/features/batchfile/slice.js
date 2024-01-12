@@ -2,94 +2,77 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const processingReducer = (state, action) => {
-   state[action.payload._batchid]['isbusy'] = true;
+   state['isbusy'] = true;
 };
 
 const processingFailedReducer = (state, action) => {
-   state[action.payload._batchid]['isbusy'] = false;
+   state['isbusy'] = false;
 
-   let msg = { level: 'error', data: action.payload.payload }
-   state[action.payload._batchid]['msg']['msgs'].push(msg);
-   state[action.payload._batchid]['msg']['latest'] = msg;
+   let msg = { level: 'error', data: action.payload }
+   state['msg']['msgs'].push(msg);
+   state['msg']['latest'] = msg;
 }
 
 const gotReducer = (state, action) => {
-   state[action.payload._batchid]['isbusy'] = false;
-   state[action.payload._batchid]['data'] = action.payload.payload;
-   state[action.payload._batchid]['msg']['latest'] = {};
+   state['isbusy'] = false;
+   state['data'] = action.payload;
+   state['msg']['latest'] = {};
 }
 
 const addedReducer = (state, action) => {
-   state[action.payload._batchid]['isbusy'] = false;
-   state[action.payload._batchid]['new'] = action.payload.payload;
+   state['isbusy'] = false;
+   state['new'] = action.payload;
 
    //let msg = { level: 'success', data: `New item created with id = ${action.payload.id}` }
    let msg = { level: 'success', data: `New item created` }
-   state[action.payload._batchid]['msg']['msgs'].push(msg);
-   state[action.payload._batchid]['msg']['latest'] = msg;
+   state['msg']['msgs'].push(msg);
+   state['msg']['latest'] = msg;
 }
 
 const updatedReducer = (state, action) => {
-   state[action.payload._batchid]['isbusy'] = false;
-   state[action.payload._batchid]['current'] = action.payload.payload;
+   state['isbusy'] = false;
+   state['current'] = action.payload;
 
    // let msg = { level: 'success', data: `Successfully Updated item with id = ${action.payload.id}` }
    let msg = { level: 'success', data: 'Successfully Updated item' }
-   state[action.payload._batchid]['msg']['msgs'].push(msg);
-   state[action.payload._batchid]['msg']['latest'] = msg;
+   state['msg']['msgs'].push(msg);
+   state['msg']['latest'] = msg;
 }
 
 const deletedReducer = (state, action) => {
-   state[action.payload._batchid]['isbusy'] = false;
-   state[action.payload._batchid]['deleted'] = action.payload.payload;
+   state['isbusy'] = false;
+   state['deleted'] = action.payload;
 
    //let msg = { level: 'success', data: `Successfully Deleted item with id = ${action.payload.id}` }
 
    let msg = { level: 'success', data: `Successfully Deleted item` }
-   state[action.payload._batchid]['msg']['msgs'].push(msg);
-   state[action.payload._batchid]['msg']['latest'] = msg;
+   state['msg']['msgs'].push(msg);
+   state['msg']['latest'] = msg;
 }
 
 const updateSearchstateReducer = (state, action) => {
 
-   state[action.payload._batchid]['search'] = action.payload.payload;
+   state['search'] = action.payload;
 
-}
-
-const initStateReducer = (state, action) => {
-
-   if (action.payload._batchid) {
-      if (!state[action.payload._batchid]) {
-         state[action.payload._batchid] = state.default;
-      }
-   }
-
-   if (action.payload.batches){
-      action.payload.batches.forEach(element => {
-         state[element.id] = state.default;
-      });
-   }
 }
 
 const mySlice = createSlice({
    name: 'batchfile',
    initialState: {
-      default: {
-         isbusy: false,
-         search: {
-            id: null,
-            currentpage: 1,
-            itemperpage: 5,
-            sortby: 'id',
-            sortorder: 'ascend',
-            numberofsearch: 0
-         },
-         data: [],
-         msg: {
-            // level:'success',logdate: new Date() ,data:'successful'
-            latest: {},
-            msgs: []
-         }
+      isbusy: false,
+      search: {
+         id: null,
+         currentpage: 1,
+         itemperpage: 5,
+         sortby: 'id',
+         sortorder: 'ascend',
+         numberofsearch: 0
+      },
+      data: [],
+      msg: {   
+         // level:'success',logdate: new Date() ,data:'successful'
+         latest: {},
+         msgs: []
       }
    },
    reducers: {
@@ -99,11 +82,10 @@ const mySlice = createSlice({
       addedBatchFile: addedReducer,
       updatedBatchFile: updatedReducer,
       deletedBatchFile: deletedReducer,
-      updateBatchFileSearchstate: updateSearchstateReducer,
-      initBatchFileState: initStateReducer
+      updateBatchFileSearchstate: updateSearchstateReducer
    }
 });
 
-export const { initBatchFileState, updateBatchFileSearchstate, processingBatchFile, processingBatchFileFailed, gotBatchFiles, addedBatchFile, updatedBatchFile, deletedBatchFile } = mySlice.actions;
+export const { updateBatchFileSearchstate, processingBatchFile, processingBatchFileFailed, gotBatchFiles, addedBatchFile, updatedBatchFile, deletedBatchFile } = mySlice.actions;
 
 export default mySlice.reducer;

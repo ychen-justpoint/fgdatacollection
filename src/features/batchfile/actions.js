@@ -5,30 +5,23 @@ import {
     addedBatchFile as addedAction,
     updatedBatchFile as updatedAction,
     deletedBatchFile as deletedAction,
-    updateBatchFileSearchstate as searchAction,
-    initBatchFileState as initBatchFileStateAction
+    updateBatchFileSearchstate as searchAction
 } from './slice';
 
 //import { fetchStreamsIfNotBusy } from '../stream/actions';
 
-import { accessToken as accessTokenCommon, batchId as batchIdCommon } from '../../common';
+import { accessToken as accessTokenCommon } from '../../common';
 
 export const accessToken = accessTokenCommon
 
-export const batchIdAccessor = batchIdCommon
-
-const resourceUrl = process.env.REACT_APP_API + 'api/files/';
-const odataResourceUrl = process.env.REACT_APP_API + 'odata/files/';
-
-//const myHeaders = new Headers({ "Content-Type": "application/json","Authorization": "Bearer " + process.env.ACCESS_TOKEN});
-
-// const myHeaders = new Headers({ "Content-Type": "application/json"});
+const resourceUrl = process.env.REACT_APP_API + 'api/batchfiles/';
+const odataResourceUrl = process.env.REACT_APP_API + 'odata/batchfiles/';
 
 const ifNotBusy = (state) => {
     return !state.isbusy;
 }
 
-const myState = (state) => { return  state.batchfile[batchIdCommon.getBatchId()]}
+const myState = (state) => { return  state.batchfile}
 
 const returnQueryUrl = (data) => {
 
@@ -43,6 +36,15 @@ const returnQueryUrl = (data) => {
         }
         else
             filter = '$filter=batchid eq ' + encodeURIComponent(data['batchid']) + '' ;
+    }
+
+    if (data.hasOwnProperty('fileid') && data['fileid'] !== undefined && data['fileid'] !== null && data['fileid'].length > 0) {
+
+        if (filter){
+            filter = filter +  ' and fileid eq ' + encodeURIComponent(data['fileid']) + ''   
+        }
+        else
+            filter = '$filter=fileid eq ' + encodeURIComponent(data['fileid']) + '' ;
     }
 
     if(filter){
@@ -106,16 +108,16 @@ const returnQueryUrl = (data) => {
         queryUrl='?'+'$count=true';
    
     if(queryUrl)
-        queryUrl=queryUrl + '&' + '$expand=Batch,Collector'
+        queryUrl=queryUrl + '&' + '$expand=Batch,File'
     else
-        queryUrl='?'+'$expand=Batch,Collector';         
+        queryUrl='?'+'$expand=Batch,File';         
     
     return queryUrl
 }
 
 const fetchObjects = (data) => dispatch => {
 
-    dispatch(processingAction({_batchid : batchIdCommon.getBatchId()}))
+    dispatch(processingAction())
 
     const myHeaders = new Headers({ "Content-Type": "application/json","Authorization": "Bearer " + accessToken.getAccessToken()});
 
@@ -141,17 +143,17 @@ const fetchObjects = (data) => dispatch => {
                         throw new Error(JSON.stringify(json));
                     }
                 ).catch(
-                    (error) => { console.log(error); dispatch(failedAction({_batchid : batchIdCommon.getBatchId(),payload : error.message})); }
+                    (error) => { console.log(error); dispatch(failedAction(error.message)); }
                 )
             } else {
                 return res.json()
             }
         })
         .then(
-            (json) => { dispatch(gotAction({_batchid : batchIdCommon.getBatchId(),payload : json})); }
+            (json) => { dispatch(gotAction(json)); }
         )
         .catch(
-            (error) => { console.log(error); dispatch(failedAction({_batchid : batchIdCommon.getBatchId(),payload : error.message})); }
+            (error) => { console.log(error); dispatch(failedAction(error.message)); }
         )    
 
 }
@@ -162,15 +164,15 @@ export const fetchBatchFileIfNotBusy = (data) => (dispatch, getState) => {
     if (ifNotBusy(state)) {
         if (data === undefined || data === null){
             // let newSearch ={...state.search,numberofsearch:state.search.numberofsearch+1}
-            return dispatch(fetchObjects({...state.search, batchid : batchIdCommon.getBatchId()}))
+            return dispatch(fetchObjects(state.search))
         }
-        return dispatch(fetchObjects({...data,batchid : batchIdCommon.getBatchId()}))
+        return dispatch(fetchObjects(data))
     }
 }
 
 const insertObject = (data) => dispatch => {
 
-    dispatch(processingAction({_batchid : batchIdCommon.getBatchId()}))
+    dispatch(processingAction())
     
     const body = JSON.stringify(data);
 
@@ -192,24 +194,24 @@ const insertObject = (data) => dispatch => {
                         throw new Error(JSON.stringify(json));
                     }
                 ).catch(
-                    (error) => { console.log(error); dispatch(failedAction({_batchid : batchIdCommon.getBatchId(),payload : error.message})); }
+                    (error) => { console.log(error); dispatch(failedAction(error.message)); }
                 )
             } else {
                 return res.json()
             }
         })
         .then(
-            (json) => { dispatch(addedAction({_batchid : batchIdCommon.getBatchId(),payload : json})); dispatch(fetchBatchFileIfNotBusy()) }
+            (json) => { dispatch(addedAction(json)); dispatch(fetchBatchFileIfNotBusy()) }
         )
         .catch(
-            (error) => { console.log(error); dispatch(failedAction({_batchid : batchIdCommon.getBatchId(),payload : error.message})); }
+            (error) => { console.log(error); dispatch(failedAction(error.message)); }
         )
 
 }
 
 const updateObject = (data) => dispatch => {
 
-    dispatch(processingAction({_batchid : batchIdCommon.getBatchId()}))
+    dispatch(processingAction())
     
     if (data === undefined || !data)
         throw new Error('update missing data');
@@ -236,17 +238,17 @@ const updateObject = (data) => dispatch => {
                         throw new Error(JSON.stringify(json));
                     }
                 ).catch(
-                    (error) => { console.log(error); dispatch(failedAction({_batchid : batchIdCommon.getBatchId(),payload : error.message})); }
+                    (error) => { console.log(error); dispatch(failedAction(error.message)); }
                 )
             } else {
                 return res.json()
             }
         })
         .then(
-            (json) => { dispatch(updatedAction({_batchid : batchIdCommon.getBatchId(),payload : json})); dispatch(fetchBatchFileIfNotBusy()) }
+            (json) => { dispatch(updatedAction(json)); dispatch(fetchBatchFileIfNotBusy()) }
         )
         .catch(
-            (error) => { console.log(error); dispatch(failedAction({_batchid : batchIdCommon.getBatchId(),payload : error.message})); }
+            (error) => { console.log(error); dispatch(failedAction(error.message)); }
         )        
 }
 
@@ -262,7 +264,7 @@ export const upsertBatchFileIfNotBusy = (insert,data) => (dispatch, getState) =>
 
 const deleteObject = (data) => dispatch => {
 
-    dispatch(processingAction({_batchid : batchIdCommon.getBatchId()}))
+    dispatch(processingAction())
 
     if (data === undefined || !data)
         throw new Error('update missing data');
@@ -286,15 +288,15 @@ const deleteObject = (data) => dispatch => {
                         throw new Error(JSON.stringify(json));
                     }
                 ).catch(
-                    (error) => { console.log(error); dispatch(failedAction({_batchid : batchIdCommon.getBatchId(),payload : error.message})); }
+                    (error) => { console.log(error); dispatch(failedAction(error.message)); }
                 )
             }
             else{
-                dispatch(deletedAction({_batchid : batchIdCommon.getBatchId(),payload : data})); dispatch(fetchBatchFileIfNotBusy());
+                dispatch(deletedAction(data)); dispatch(fetchBatchFileIfNotBusy());
             }
         })
         .catch(
-            (error) => { console.log(error); dispatch(failedAction({_batchid : batchIdCommon.getBatchId(),payload : error.message})); }
+            (error) => { console.log(error); dispatch(failedAction(error.message)); }
         )        
 }
 
@@ -309,10 +311,6 @@ export const deleteBatchFileIfNotBusy = (data) => (dispatch, getState) => {
 export const updateBatchFileSearchstateIfNotBusy = (data) => (dispatch, getState) => {
     let state = myState(getState())
     if (ifNotBusy(state)) {
-        return dispatch(searchAction({_batchid : batchIdCommon.getBatchId(),payload : data})) 
+        return dispatch(searchAction(data)) 
     }
-}
-
-export const initBatchFileState = (data) => (dispatch, getState) => {
-    return dispatch(initBatchFileStateAction(data)) 
 }

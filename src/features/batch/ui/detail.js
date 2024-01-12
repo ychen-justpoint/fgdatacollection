@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 //import 'antd/dist/antd.less';
 import { Tabs, Layout, Form, Input, Checkbox, InputNumber, Select, Tooltip, Button, Row, Col, DatePicker } from 'antd';
 
-import { default as BatchFile } from '../../file/container'
+import { default as BatchFile } from './batchfiletable'
 import { default as BatchData } from '../../jsondata/container'
 import { default as BatchActivity } from '../../activity/container'
 import { default as BatchMessage } from '../../message/container'
@@ -20,14 +20,16 @@ export default function Detail(props) {
 
   const items = [
     {
+      key: "file",
+      label: "File",
+      children: <BatchFile record={record} />
+    }, 
+    {
       key: "activity",
       label: "Activity",
       children: <BatchActivity batchid={record.id} />
-    }, {
-      key: "file",
-      label: "File",
-      children: <BatchFile batchid={record.id} />
-    }, {
+    }, 
+    {
       key: "data",
       label: "Data",
       children: <BatchData batchid={record.id} />
@@ -44,7 +46,7 @@ export default function Detail(props) {
     <Layout>
       <Row>
         <Col span={24}>
-          <Tabs defaultActiveKey="activity" tabPosition='top' style={{ height: '100%' }} items={items} />
+          <Tabs defaultActiveKey="file" tabPosition='top' style={{ height: '100%' }} items={items} />
         </Col>
       </Row>
     </Layout>
