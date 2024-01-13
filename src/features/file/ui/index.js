@@ -134,6 +134,7 @@ export default function Index(props) {
         ...repoRef.current.search,
         sourceid : data.sourceid,
         streamid : data.streamid,
+        iseligibleforbatch : data.iseligibleforbatch,
         currentpage: 1,
         numberofsearch: originNumberOfSearch + 1
       }

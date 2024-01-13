@@ -52,6 +52,17 @@ const returnQueryUrl = (data) => {
             filter = '$filter=sourceid eq ' + encodeURIComponent(data['sourceid']) + '' ;
     }
 
+    if (data.hasOwnProperty('iseligibleforbatch') && data['iseligibleforbatch'] !== undefined && data['iseligibleforbatch'] !== null) {
+        if (data['iseligibleforbatch']){
+            if (filter){
+                filter = filter +  ' and BatchFiles/$count eq 0 ';   
+            }
+            else
+                filter = '$filter=BatchFiles/$count eq 0 ';
+        }
+        
+    }
+    
     if(filter){
         queryUrl='?'+filter;
     }
@@ -113,9 +124,9 @@ const returnQueryUrl = (data) => {
         queryUrl='?'+'$count=true';
    
     if(queryUrl)
-        queryUrl=queryUrl + '&' + '$expand=Source,Stream,Collector,BatchFiles($expand=Batch,File)'
+        queryUrl=queryUrl + '&' + '$expand=Source,Stream,Collector,BatchFiles($expand=Batch,File;$count=true)'
     else
-        queryUrl='?'+'$expand=Source,Stream,Collector,BatchFiles($expand=Batch,File)';         
+        queryUrl='?'+'$expand=Source,Stream,Collector,BatchFiles($expand=Batch,File;$count=true)';         
     
     return queryUrl
 }

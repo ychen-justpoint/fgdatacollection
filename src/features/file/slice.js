@@ -64,6 +64,7 @@ const mySlice = createSlice({
          id: null,
          currentpage: 1,
          itemperpage: 5,
+         iseligibleforbatch : true,
          sortby: 'id',
          sortorder: 'ascend',
          numberofsearch: 0

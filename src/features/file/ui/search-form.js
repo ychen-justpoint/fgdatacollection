@@ -60,6 +60,15 @@ export default function SearchForm(props) {
                 </Col>
             </Row>
             <Row>
+                <Col span={12}>
+                    <Form.Item
+                        name="iseligibleforbatch"
+                        label="Eligible for Batch" valuePropName="checked">
+                        <Checkbox placeholder="Eligible for Batch" />
+                    </Form.Item>
+                </Col>  
+            </Row>
+            <Row>
                 <Col span={1}>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">Search</Button>
