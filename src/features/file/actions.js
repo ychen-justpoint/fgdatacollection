@@ -60,6 +60,13 @@ const returnQueryUrl = (data) => {
             else
                 filter = '$filter=BatchFiles/$count eq 0 ';
         }
+        else{
+            if (filter){
+                filter = filter +  ' and BatchFiles/$count gt 0 ';   
+            }
+            else
+                filter = '$filter=BatchFiles/$count gt 0 ';
+        }
         
     }
     
