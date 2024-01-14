@@ -125,9 +125,9 @@ const returnQueryUrl = (data) => {
         queryUrl='?'+'$count=true';
 
     if(queryUrl)
-        queryUrl=queryUrl + '&' + '$expand=Batch,Messages'
+        queryUrl=queryUrl + '&' + '$expand=Batch,Messages,File'
     else
-        queryUrl='?'+'$expand=Batch,Messages';    
+        queryUrl='?'+'$expand=Batch,Messages,File';    
     
     return queryUrl
 }

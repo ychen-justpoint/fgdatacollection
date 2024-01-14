@@ -46,6 +46,22 @@ export default function myTable(props) {
       sorter: false,
       sortDirections: ['descend', 'ascend']
     },
+    {
+      title: 'File',
+      dataIndex: ['file','filename'],
+      key: 'fileid',
+      // width: 100, 
+      sorter: false,
+      sortDirections: ['descend', 'ascend']
+    },
+    {
+      title: 'Row Number In File',
+      dataIndex: 'rownumber',
+      key: 'rownumber',
+      // width: 100, 
+      sorter: false,
+      sortDirections: ['descend', 'ascend']
+    },
     // {
     //   title: 'Jsonschema Id',
     //   dataIndex: 'jsonschemaid',
