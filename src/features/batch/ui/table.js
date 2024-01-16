@@ -111,8 +111,8 @@ export default function myTable(props) {
       render: (text, record, index) => (text && new Date(text).toString())
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: 'Process',
+      key: 'process',
       render: (text, record, index) => (
         <Space size="middle">
           <Popconfirm title="Are you sure to collect the batch?"
@@ -148,7 +148,14 @@ export default function myTable(props) {
               </Button>
             </Tooltip>
           </Popconfirm>
-
+        </Space>
+      )
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record, index) => (
+        <Space size="middle">
           <Button onClick={() => { handleOpenEditor(record) }}>
             <EditOutlined />
           </Button>
