@@ -51,13 +51,13 @@ export default function myTable(props) {
       sorter: true,
       sortDirections: ['descend', 'ascend']
     },
-    {
-      title: 'Collector Id',
-      dataIndex: ['collector','name'],
-      key: 'collectorid',
-      sorter: false,
-      sortDirections: ['descend', 'ascend']
-    },
+    // {
+    //   title: 'Collector Id',
+    //   dataIndex: ['collector','name'],
+    //   key: 'collectorid',
+    //   sorter: false,
+    //   sortDirections: ['descend', 'ascend']
+    // },
     {
       title: 'Processed?',
       dataIndex: 'isprocessed',
@@ -67,6 +67,14 @@ export default function myTable(props) {
       render:(text, record, index)=>(
         <Checkbox checked={text}/>
       )
+    },
+    {
+      title: 'Created On',
+      dataIndex: 'createddate',
+      key: 'createddate',
+      sorter: true,
+      sortDirections: ['descend', 'ascend'],
+      render: (text, record, index) => (text && new Date(text).toString())
     },
     {
       title: 'Container',

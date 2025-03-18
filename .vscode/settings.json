@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/778fa473-26f7-4113-b2b4-ef36874931e7/resourceGroups/rg-d-wus2-tpm-01/providers/Microsoft.Web/sites/fg-webapp-tpm-client",
+    "appService.deploySubpath": "."
+}
